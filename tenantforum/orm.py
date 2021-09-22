@@ -24,7 +24,7 @@ class TenantforumModel(JSONModel):
         schema = database.database
 
 
-class Topic(JSONModel):
+class Topic(TenantforumModel):
     """A topic."""
 
     user = ForeignKeyField(User, column_name='user')
@@ -34,7 +34,7 @@ class Topic(JSONModel):
     edited = DateTimeField(null=True)
 
 
-class Response(JSONModel):
+class Response(TenantforumModel):
     """A response to a topic."""
 
     user = ForeignKeyField(User, column_name='user')
