@@ -40,6 +40,6 @@ class Response(JSONModel):
     user = ForeignKeyField(User, column_name='user')
     topic = ForeignKeyField(
         Topic, column_name='topic', backref='responses', on_delete='CASCADE')
-    text = TextField()
+    text = TextField(null=True)
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
