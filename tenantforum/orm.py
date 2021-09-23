@@ -11,7 +11,8 @@ from peewee import TextField
 
 from comcatlib import User
 from mdb import Company, Customer, Tenement
-from peeweeplus import JSONModel, MySQLDatabase
+from peeweeplus import EnumField, JSONModel, MySQLDatabase
+from tenant2tenant import Visibility
 
 from tenantforum.config import CONFIG
 
@@ -37,6 +38,7 @@ class Topic(TenantforumModel):
     user = ForeignKeyField(User, column_name='user')
     title = CharField()
     text = TextField()
+    visibility = EnumField(Visibility, default=Visibility.TENEMENT)
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
