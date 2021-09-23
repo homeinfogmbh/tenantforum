@@ -66,7 +66,7 @@ class Response(TenantforumModel):
         """Creates a response from a JSON-ish dict."""
         return super().from_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
 
-    def patch_json(self, json: dict, **kwargs) -> Topic:
+    def patch_json(self, json: dict, **kwargs) -> Response:
         """Patches the record using a JSON-ish dict."""
         super().patch_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
         self.edited = datetime.now()
