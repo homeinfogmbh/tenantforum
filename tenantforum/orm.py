@@ -17,6 +17,8 @@ __all__ = ['Topic', 'Response']
 
 DATABASE = MySQLDatabase.from_config(CONFIG)
 UNCHANGED = object()
+JSON_FIELDS_TOPIC = {'title', 'text'}
+JSON_FIELDS_RESPONSE = {'text'}
 
 
 class TenantforumModel(JSONModel):
@@ -37,9 +39,14 @@ class Topic(TenantforumModel):
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
+    @classmethod
+    def from_json(cls, json: dict, **kwargs) -> Topic:
+        """Creates a response from a JSON-ish dict."""
+        return super().from_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
+
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
-        super().patch_json(json, only={'title', 'text'}, **kwargs)
+        super().patch_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
         self.edited = datetime.now()
         return self
 
@@ -54,8 +61,13 @@ class Response(TenantforumModel):
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
+    @classmethod
+    def from_json(cls, json: dict, **kwargs) -> Response:
+        """Creates a response from a JSON-ish dict."""
+        return super().from_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
+
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
-        super().patch_json(json, only={'text'}, **kwargs)
+        super().patch_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
         self.edited = datetime.now()
         return self
