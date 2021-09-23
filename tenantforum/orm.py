@@ -20,7 +20,7 @@ JSON_FIELDS_TOPIC = {'title', 'text'}
 JSON_FIELDS_RESPONSE = {'text'}
 
 
-class TenantforumModel(JSONModel):
+class TenantforumModel(JSONModel):  # pylint: disable=R0903
     """Base model for this database."""
 
     class Meta:     # pylint: disable=R0903,C0115
