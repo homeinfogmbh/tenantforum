@@ -75,16 +75,9 @@ class Response(TenantforumModel):
         if not cascade:
             return super().select(*args, **kwargs)
 
-        topic_user = User.alias()
-        topic_customer = Customer.alias()
-        topic_company = Company.alias()
-        args = {
-            cls, User, Tenement, Customer, Company, Topic, topic_user,
-            topic_customer, topic_company, *args
-        }
-        return super().select(*args, **kwargs).join(User).join(Tenement).join(
-            Customer).join(Company).join_from(cls, Topic).join(topic_user).join(
-            topic_customer).join(topic_company)
+        args = {cls, Topic, User, Tenement, Customer, Company, Topic}
+        return super().select(*args, **kwargs).join(Topic).join(User).join(
+            Tenement).join(Customer).join(Company)
 
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
