@@ -16,7 +16,6 @@ __all__ = ['Topic', 'Response']
 
 
 DATABASE = MySQLDatabase.from_config(CONFIG)
-UNCHANGED = object()
 JSON_FIELDS_TOPIC = {'title', 'text'}
 JSON_FIELDS_RESPONSE = {'text'}
 
