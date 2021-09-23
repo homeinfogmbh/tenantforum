@@ -17,8 +17,6 @@ __all__ = ['Topic', 'Response']
 
 DATABASE = MySQLDatabase.from_config(CONFIG)
 UNCHANGED = object()
-ONLY_FIELDS_TOPIC = frozenset({'title', 'text'})
-ONLY_FIELDS_RESPONSE = frozenset({'text'})
 
 
 class TenantforumModel(JSONModel):
@@ -45,10 +43,9 @@ class Topic(TenantforumModel):
         self.edited = datetime.now()
         self.save()
 
-    def patch_json(self, json: dict, *, only: set[str] = ONLY_FIELDS_TOPIC,
-                   **kwargs) -> Topic:
+    def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
-        return super().patch_json(json, only=only, **kwargs)
+        return super().patch_json(json, only={'title', 'text'}, **kwargs)
 
 
 class Response(TenantforumModel):
@@ -71,7 +68,6 @@ class Response(TenantforumModel):
         """Blank this post."""
         self.edit(None)
 
-    def patch_json(self, json: dict, *, only: set[str] = ONLY_FIELDS_RESPONSE,
-                   **kwargs) -> Topic:
+    def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
-        return super().patch_json(json, only=only, **kwargs)
+        return super().patch_json(json, only={'text'}, **kwargs)
