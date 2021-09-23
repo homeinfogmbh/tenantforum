@@ -3,14 +3,9 @@
 from __future__ import annotations
 from datetime import datetime
 
-from peewee import CharField
-from peewee import DateTimeField
-from peewee import ForeignKeyField
-from peewee import ModelSelect
-from peewee import TextField
+from peewee import CharField, DateTimeField, ForeignKeyField, TextField
 
 from comcatlib import User
-from mdb import Company, Customer, Tenement
 from peeweeplus import EnumField, JSONModel, MySQLDatabase
 from tenant2tenant import Visibility
 
@@ -42,16 +37,6 @@ class Topic(TenantforumModel):
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
-    @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
-        """Selects records."""
-        if not cascade:
-            return super().select(*args, **kwargs)
-
-        args = {cls, User, Tenement, Customer, Company, *args}
-        return super().select(*args, **kwargs).join(User).join(Tenement).join(
-            Customer).join(Company)
-
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
         super().patch_json(json, only={'title', 'text'}, **kwargs)
@@ -68,16 +53,6 @@ class Response(TenantforumModel):
     text = TextField(null=True)
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
-
-    @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
-        """Selects records."""
-        if not cascade:
-            return super().select(*args, **kwargs)
-
-        args = {cls, Topic, User, Tenement, Customer, Company, Topic}
-        return super().select(*args, **kwargs).join(Topic).join(User).join(
-            Tenement).join(Customer).join(Company)
 
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
