@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 from datetime import datetime
-from typing import Optional
 
 from peewee import CharField, DateTimeField, ForeignKeyField, TextField
 
@@ -36,16 +35,11 @@ class Topic(TenantforumModel):
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
-    def edit(self, title: str = UNCHANGED, text: str = UNCHANGED) -> None:
-        """Edits the post."""
-        self.title = self.title if title is UNCHANGED else title
-        self.text = self.text if text is UNCHANGED else text
-        self.edited = datetime.now()
-        self.save()
-
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
-        return super().patch_json(json, only={'title', 'text'}, **kwargs)
+        super().patch_json(json, only={'title', 'text'}, **kwargs)
+        self.edited = datetime.now()
+        return self
 
 
 class Response(TenantforumModel):
@@ -58,16 +52,8 @@ class Response(TenantforumModel):
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
-    def edit(self, text: Optional[str] = UNCHANGED) -> None:
-        """Edits the post."""
-        self.text = self.text if text is UNCHANGED else text
-        self.edited = datetime.now()
-        self.save()
-
-    def blank(self) -> None:
-        """Blank this post."""
-        self.edit(None)
-
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
-        return super().patch_json(json, only={'text'}, **kwargs)
+        super().patch_json(json, only={'text'}, **kwargs)
+        self.edited = datetime.now()
+        return self
