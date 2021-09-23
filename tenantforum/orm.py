@@ -41,7 +41,7 @@ class Topic(TenantforumModel):
 
     @classmethod
     def from_json(cls, json: dict, **kwargs) -> Topic:
-        """Creates a response from a JSON-ish dict."""
+        """Creates a topic from a JSON-ish dict."""
         return super().from_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
 
     def patch_json(self, json: dict, **kwargs) -> Topic:
