@@ -40,7 +40,7 @@ class Topic(TenantforumModel):
     edited = DateTimeField(null=True)
 
     @classmethod
-    def from_json(cls, json: dict, *, user: Optional[Union[user, int]] = None,
+    def from_json(cls, json: dict, *, user: Optional[Union[User, int]] = None,
                   **kwargs) -> Topic:
         """Creates a topic from a JSON-ish dict."""
         topic = super().from_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
@@ -65,7 +65,7 @@ class Response(TenantforumModel):
     edited = DateTimeField(null=True)
 
     @classmethod
-    def from_json(cls, json: dict, *, user: Optional[Union[user, int]] = None,
+    def from_json(cls, json: dict, *, user: Optional[Union[User, int]] = None,
                   topic: Optional[Union[Topic, int]] = None,
                   **kwargs) -> Response:
         """Creates a response from a JSON-ish dict."""
