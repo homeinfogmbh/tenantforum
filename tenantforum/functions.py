@@ -13,6 +13,7 @@ from tenantforum.orm import Topic, Response
 
 __all__ = [
     'get_visible_topics',
+    'get_visible_topic',
     'get_own_topics',
     'get_own_topic',
     'get_topics',
@@ -44,6 +45,12 @@ def get_visible_topics(user: User) -> ModelSelect:
     return Topic.select().join(User).join(Tenement).where(
         (Topic.user == user.id) | get_visibility_condition(user)
     )
+
+
+def get_visible_topic(ident: int, user: User) -> ModelSelect:
+    """Selects topics visible to the user."""
+
+    return get_visible_topics(user).where(Topic.id == ident).get()
 
 
 def get_own_topics(user: User) -> ModelSelect:
