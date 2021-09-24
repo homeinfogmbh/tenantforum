@@ -9,7 +9,7 @@ __all__ = ['ERRORS']
 
 
 ERRORS = {
-    Topic.DoesNotExist: lambda _: JSONMessage('No such topic.', status=4040),
+    Topic.DoesNotExist: lambda _: JSONMessage('No such topic.', status=404),
     Response.DoesNotExist: lambda _: JSONMessage(
-        'No such response.', status=4040)
+        'No such response.', status=404)
 }
