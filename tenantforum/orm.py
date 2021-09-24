@@ -4,10 +4,14 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional, Union
 
-from peewee import CharField, DateTimeField, ForeignKeyField, TextField
+from peewee import DateTimeField, ForeignKeyField
 
 from comcatlib import User
-from peeweeplus import EnumField, JSONModel, MySQLDatabase
+from peeweeplus import EnumField
+from peeweeplus import HTMLCharField
+from peeweeplus import HTMLTextField
+from peeweeplus import JSONModel
+from peeweeplus import MySQLDatabase
 from tenant2tenant import Visibility
 
 from tenantforum.config import CONFIG
@@ -33,8 +37,8 @@ class Topic(TenantforumModel):
     """A topic."""
 
     user = ForeignKeyField(User, column_name='user')
-    title = CharField()
-    text = TextField()
+    title = HTMLCharField()
+    text = HTMLTextField()
     visibility = EnumField(Visibility, default=Visibility.TENEMENT)
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
@@ -60,7 +64,7 @@ class Response(TenantforumModel):
     user = ForeignKeyField(User, column_name='user')
     topic = ForeignKeyField(
         Topic, column_name='topic', backref='responses', on_delete='CASCADE')
-    text = TextField(null=True)
+    text = HTMLTextField(null=True)
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
