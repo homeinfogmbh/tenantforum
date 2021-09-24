@@ -13,10 +13,12 @@ from tenantforum.orm import Topic, Response
 
 __all__ = [
     'get_visible_topics',
+    'get_own_topics',
     'get_own_topic',
     'get_topics',
     'get_visible_responses',
     'get_responses',
+    'get_own_responses',
     'get_own_response'
 ]
 
@@ -44,10 +46,16 @@ def get_visible_topics(user: User) -> ModelSelect:
     )
 
 
+def get_own_topics(user: User) -> ModelSelect:
+    """Selects own topics."""
+
+    return Topic.select().where(Topic.user == user)
+
+
 def get_own_topic(ident: int, user: User) -> Topic:
     """Selects an own topic."""
 
-    return Topic.select().where((Topic.id == ident) & (Topic.user == user))
+    return get_own_topics(user).where(Topic.id == ident).get()
 
 
 def get_topics(customer: Customer) -> ModelSelect:
@@ -81,8 +89,13 @@ def get_responses(topic: Union[Topic, int], customer: Customer) -> ModelSelect:
         condition)
 
 
+def get_own_responses(user: User) -> ModelSelect:
+    """Selects own responses."""
+
+    return Response.select().where(Response.user == user)
+
+
 def get_own_response(ident: int, user: User) -> Response:
     """Selects an own response."""
 
-    condition = (Response.id == ident) & (Response.user == user)
-    return Response.select().where(condition)
+    return get_own_responses(user).where(Response.id == ident).get()
