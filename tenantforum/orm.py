@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from datetime import datetime
+from typing import Optional, Union
 
 from peewee import CharField, DateTimeField, ForeignKeyField, TextField
 
@@ -39,9 +40,12 @@ class Topic(TenantforumModel):
     edited = DateTimeField(null=True)
 
     @classmethod
-    def from_json(cls, json: dict, **kwargs) -> Topic:
+    def from_json(cls, json: dict, *, user: Optional[Union[user, int]] = None,
+                  **kwargs) -> Topic:
         """Creates a topic from a JSON-ish dict."""
-        return super().from_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
+        topic = super().from_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
+        topic.user = user
+        return topic
 
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
@@ -61,9 +65,12 @@ class Response(TenantforumModel):
     edited = DateTimeField(null=True)
 
     @classmethod
-    def from_json(cls, json: dict, **kwargs) -> Response:
+    def from_json(cls, json: dict, *, user: Optional[Union[user, int]] = None,
+                  **kwargs) -> Response:
         """Creates a response from a JSON-ish dict."""
-        return super().from_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
+        response = super().from_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
+        response.user = user
+        return response
 
     def patch_json(self, json: dict, **kwargs) -> Response:
         """Patches the record using a JSON-ish dict."""
