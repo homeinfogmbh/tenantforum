@@ -42,14 +42,14 @@ def get_visible_topics(user: User) -> ModelSelect:
     """Selects topics visible to the user."""
 
     return Topic.select().join(User).join(Tenement).where(
-        (Topic.user == user) | get_visibility_condition(user)
+        (Topic.user == user.id) | get_visibility_condition(user)
     )
 
 
 def get_own_topics(user: User) -> ModelSelect:
     """Selects own topics."""
 
-    return Topic.select().where(Topic.user == user)
+    return Topic.select().where(Topic.user == user.id)
 
 
 def get_own_topic(ident: int, user: User) -> Topic:
@@ -62,7 +62,7 @@ def get_topics(customer: Customer) -> ModelSelect:
     """Selects topics of a certain customer."""
 
     return Topic.select().join(User).join(Tenement).where(
-        Tenement.customer == customer)
+        Tenement.customer == customer.id)
 
 
 def get_visible_responses(topic: Union[Topic, int], user: User) -> ModelSelect:
@@ -71,7 +71,7 @@ def get_visible_responses(topic: Union[Topic, int], user: User) -> ModelSelect:
     condition = (
         (Response.topic == topic)
         & (
-            (Response.user == user) | get_visibility_condition(user)
+            (Response.user == user.id) | get_visibility_condition(user)
         )
     )
     return Response.select().join(Topic).join(User).join(Tenement).where(
@@ -83,7 +83,7 @@ def get_responses(topic: Union[Topic, int], customer: Customer) -> ModelSelect:
 
     condition = (
         (Response.topic == topic)
-        & (Tenement.customer == customer)
+        & (Tenement.customer == customer.id)
     )
     return Response.select().join(Topic).join(User).join(Tenement).where(
         condition)
@@ -92,7 +92,7 @@ def get_responses(topic: Union[Topic, int], customer: Customer) -> ModelSelect:
 def get_own_responses(user: User) -> ModelSelect:
     """Selects own responses."""
 
-    return Response.select().where(Response.user == user)
+    return Response.select().where(Response.user == user.id)
 
 
 def get_own_response(ident: int, user: User) -> Response:
