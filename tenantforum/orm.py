@@ -66,10 +66,12 @@ class Response(TenantforumModel):
 
     @classmethod
     def from_json(cls, json: dict, *, user: Optional[Union[user, int]] = None,
+                  topic: Optional[Union[Topic, int]] = None,
                   **kwargs) -> Response:
         """Creates a response from a JSON-ish dict."""
         response = super().from_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
         response.user = user
+        response.topic = topic
         return response
 
     def patch_json(self, json: dict, **kwargs) -> Response:
