@@ -11,10 +11,12 @@ setup(
     },
     setup_requires=['setuptools_scm'],
     install_requires=[
+        'comcatlib',
         'configlib',
         'mdb',
         'peewee',
         'peeweeplus',
+        'tenant2tenant',
         'wsgilib'
     ],
     author='HOMEINFO - Digitale Informationssysteme GmbH',
