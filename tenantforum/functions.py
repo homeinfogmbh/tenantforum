@@ -17,8 +17,10 @@ __all__ = [
     'get_own_topics',
     'get_own_topic',
     'get_topics',
+    'get_topic',
     'get_visible_responses',
     'get_responses',
+    'get_response',
     'get_own_responses',
     'get_own_response'
 ]
@@ -72,6 +74,12 @@ def get_topics(customer: Customer) -> ModelSelect:
         Tenement.customer == customer.id)
 
 
+def get_topic(ident: int, customer: Customer) -> Topic:
+    """Returns the given topic of the given customer."""
+
+    return get_topics(customer).where(Topic.id == ident).get()
+
+
 def get_visible_responses(topic: Union[Topic, int], user: User) -> ModelSelect:
     """Selects responses to a topic visible to the given user."""
 
@@ -94,6 +102,13 @@ def get_responses(topic: Union[Topic, int], customer: Customer) -> ModelSelect:
     )
     return Response.select().join(Topic).join(User).join(Tenement).where(
         condition)
+
+
+def get_response(ident: int, customer: Customer) -> Response:
+    """Returns the given response of the given customer."""
+
+    return Response.select().join(Topic).join(User).join(Tenement).where(
+        (Tenement.custimer == customer) & (Response.id == ident)).get()
 
 
 def get_own_responses(user: User) -> ModelSelect:
