@@ -21,7 +21,8 @@ __all__ = ['Topic', 'Response']
 
 
 DATABASE = MySQLDatabase.from_config(CONFIG)
-JSON_FIELDS_TOPIC = {'title', 'text'}
+JSON_FIELDS_TOPIC_PATCH = {'title', 'text'}
+JSON_FIELDS_TOPIC_POST = {*JSON_FIELDS_TOPIC_PATCH, 'visibility'}
 JSON_FIELDS_RESPONSE = {'text'}
 
 
@@ -47,13 +48,13 @@ class Topic(TenantforumModel):
     def from_json(cls, json: dict, *, user: Optional[Union[User, int]] = None,
                   **kwargs) -> Topic:
         """Creates a topic from a JSON-ish dict."""
-        topic = super().from_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
+        topic = super().from_json(json, only=JSON_FIELDS_TOPIC_POST, **kwargs)
         topic.user = user
         return topic
 
     def patch_json(self, json: dict, **kwargs) -> Topic:
         """Patches the record using a JSON-ish dict."""
-        super().patch_json(json, only=JSON_FIELDS_TOPIC, **kwargs)
+        super().patch_json(json, only=JSON_FIELDS_TOPIC_PATCH, **kwargs)
         self.edited = datetime.now()
         return self
 
