@@ -37,7 +37,7 @@ class TenantforumModel(JSONModel):  # pylint: disable=R0903
 class Topic(TenantforumModel):
     """A topic."""
 
-    user = ForeignKeyField(User, column_name='user')
+    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     title = HTMLCharField()
     text = HTMLTextField()
     visibility = EnumField(Visibility, default=Visibility.TENEMENT)
@@ -62,7 +62,7 @@ class Topic(TenantforumModel):
 class Response(TenantforumModel):
     """A response to a topic."""
 
-    user = ForeignKeyField(User, column_name='user')
+    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     topic = ForeignKeyField(
         Topic, column_name='topic', backref='responses', on_delete='CASCADE')
     text = HTMLTextField(null=True)
