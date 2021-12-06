@@ -11,16 +11,14 @@ from peeweeplus import EnumField
 from peeweeplus import HTMLCharField
 from peeweeplus import HTMLTextField
 from peeweeplus import JSONModel
-from peeweeplus import MySQLDatabase
+from peeweeplus import MySQLDatabaseProxy
 from tenant2tenant import Visibility
-
-from tenantforum.config import CONFIG
 
 
 __all__ = ['Topic', 'Response']
 
 
-DATABASE = MySQLDatabase.from_config(CONFIG)
+DATABASE = MySQLDatabaseProxy('tenantforum')
 JSON_FIELDS_TOPIC_PATCH = {'title', 'text'}
 JSON_FIELDS_TOPIC_POST = {*JSON_FIELDS_TOPIC_PATCH, 'visibility'}
 JSON_FIELDS_RESPONSE = {'text'}
