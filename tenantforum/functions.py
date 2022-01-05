@@ -108,7 +108,7 @@ def get_response(ident: int, customer: Customer) -> Response:
     """Returns the given response of the given customer."""
 
     return Response.select().join(Topic).join(User).join(Tenement).where(
-        (Tenement.custimer == customer) & (Response.id == ident)).get()
+        (Tenement.customer == customer) & (Response.id == ident)).get()
 
 
 def get_own_responses(user: User) -> ModelSelect:
