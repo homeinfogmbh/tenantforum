@@ -31,12 +31,14 @@ def get_visibility_condition(user: User) -> Expression:
 
     return (
         (
-            (Topic.visibility == Visibility.CUSTOMER)
-            & (Tenement.customer == user.customer)
-        )
-        | (
-            (Topic.visibility == Visibility.TENEMENT)
-            & (User.tenement == user.tenement)
+                Tenement.customer == user.customer
+        ) & (
+                (
+                        Topic.visibility == Visibility.CUSTOMER
+                ) | (
+                        (Topic.visibility == Visibility.TENEMENT)
+                        & (Tenement.address == user.tenement.address)
+                )
         )
     )
 
