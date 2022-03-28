@@ -56,6 +56,12 @@ class Topic(TenantforumModel):
         self.edited = datetime.now()
         return self
 
+    def to_json(self, **kwargs) -> dict:
+        """Returns a JSON-ish dict."""
+        json = super().to_dict(**kwargs)
+        json['user'] = self.user.to_json(shallow=True)
+        return json
+
 
 class Response(TenantforumModel):
     """A response to a topic."""
@@ -82,3 +88,9 @@ class Response(TenantforumModel):
         super().patch_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
         self.edited = datetime.now()
         return self
+
+    def to_json(self, **kwargs) -> dict:
+        """Returns a JSON-ish dict."""
+        json = super().to_dict(**kwargs)
+        json['user'] = self.user.to_json(shallow=True)
+        return json
