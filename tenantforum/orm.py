@@ -58,7 +58,7 @@ class Topic(TenantforumModel):
 
     def to_json(self, **kwargs) -> dict:
         """Returns a JSON-ish dict."""
-        json = super().to_dict(**kwargs)
+        json = super().to_json(**kwargs)
         json['user'] = self.user.to_json(shallow=True)
         return json
 
@@ -91,6 +91,6 @@ class Response(TenantforumModel):
 
     def to_json(self, **kwargs) -> dict:
         """Returns a JSON-ish dict."""
-        json = super().to_dict(**kwargs)
+        json = super().to_json(**kwargs)
         json['user'] = self.user.to_json(shallow=True)
         return json
