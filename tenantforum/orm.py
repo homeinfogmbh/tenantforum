@@ -43,8 +43,13 @@ class Topic(TenantforumModel):
     edited = DateTimeField(null=True)
 
     @classmethod
-    def from_json(cls, json: dict, *, user: Optional[Union[User, int]] = None,
-                  **kwargs) -> Topic:
+    def from_json(
+            cls,
+            json: dict,
+            *,
+            user: Optional[Union[User, int]] = None,
+            **kwargs
+    ) -> Topic:
         """Creates a topic from a JSON-ish dict."""
         topic = super().from_json(json, only=JSON_FIELDS_TOPIC_POST, **kwargs)
         topic.user = user
@@ -68,15 +73,21 @@ class Response(TenantforumModel):
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     topic = ForeignKeyField(
-        Topic, column_name='topic', backref='responses', on_delete='CASCADE')
+        Topic, column_name='topic', backref='responses', on_delete='CASCADE'
+    )
     text = HTMLTextField(null=True)
     created = DateTimeField(default=datetime.now)
     edited = DateTimeField(null=True)
 
     @classmethod
-    def from_json(cls, json: dict, *, user: Optional[Union[User, int]] = None,
-                  topic: Optional[Union[Topic, int]] = None,
-                  **kwargs) -> Response:
+    def from_json(
+            cls,
+            json: dict,
+            *,
+            user: Optional[Union[User, int]] = None,
+            topic: Optional[Union[Topic, int]] = None,
+            **kwargs
+    ) -> Response:
         """Creates a response from a JSON-ish dict."""
         response = super().from_json(json, only=JSON_FIELDS_RESPONSE, **kwargs)
         response.user = user
