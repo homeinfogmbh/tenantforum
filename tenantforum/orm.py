@@ -24,10 +24,10 @@ JSON_FIELDS_TOPIC_POST = {*JSON_FIELDS_TOPIC_PATCH, 'visibility'}
 JSON_FIELDS_RESPONSE = {'text'}
 
 
-class TenantforumModel(JSONModel):  # pylint: disable=R0903
+class TenantforumModel(JSONModel):
     """Base model for this database."""
 
-    class Meta:     # pylint: disable=R0903,C0115
+    class Meta:
         database = DATABASE
         schema = database.database
 
