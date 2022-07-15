@@ -1,4 +1,4 @@
-"""Renant forum library."""
+"""Tenant forum library."""
 
 from tenantforum.errors import ERRORS
 from tenantforum.functions import get_visible_topics
