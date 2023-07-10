@@ -1,2 +1,2 @@
 # tenantforum
-A tenant forum for ComCat.
+A tenant forum for [`comcat`](https://github.com/homeinfogmbh/comcat).
